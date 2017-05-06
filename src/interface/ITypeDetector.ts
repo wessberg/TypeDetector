@@ -1,9 +1,8 @@
+export declare type TypeOf = 'string' | 'object' | 'regexp' | 'number' | 'date' | 'symbol' | 'function' | 'boolean' | 'null' | 'undefined' | 'array' | 'set' | 'map' | 'weakset' | 'weakmap';
 
-/* tslint:disable */
 export interface IArbitraryObject<T> {
 	[key: string]: T;
 	[key: number]: T;
-	/* tslint:enable */
 }
 
 export interface ITypeDetector {
@@ -17,6 +16,7 @@ export interface ITypeDetector {
 	isFunction (item: any): item is Function;
 	isElement (item: any): item is Element;
 	isEventListenable (item: any): item is EventTarget;
+	getTypeof<T> (data: T): TypeOf;
 	isEqual(x: any, y: any): boolean;
 	/* tslint:enable */
 }

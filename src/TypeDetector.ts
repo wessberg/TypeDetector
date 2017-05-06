@@ -1,4 +1,4 @@
-import {IArbitraryObject, ITypeDetector} from "./interface/ITypeDetector";
+import {IArbitraryObject, ITypeDetector, TypeOf} from './interface/ITypeDetector';
 
 /**
  * A class that holds a set of predicate methods that detects the native type of the input.
@@ -108,6 +108,30 @@ export class TypeDetector implements ITypeDetector {
 	public isEventListenable (item: any): item is EventTarget {
 		/* tslint:enable */
 		return item === document || item === window || item instanceof HTMLBodyElement || item instanceof HTMLElement;
+	}
+
+	/**
+	 * Returns a more appropriate "typeof" value for different kinds of built-in types.
+	 * @param {T} data
+	 * @returns {TypeOf}
+	 */
+	public getTypeof<T> (data: T): TypeOf {
+		if (typeof data === null) return "null";
+		if (typeof data === undefined) return "undefined";
+		if (typeof data === "symbol") return "symbol";
+		if (data instanceof Date) return "date";
+		if (data instanceof RegExp) return "regexp";
+		if (this.isString(data)) return "string";
+		if (data instanceof Set) return "set";
+		if (data instanceof Map) return "map";
+		if (data instanceof WeakSet) return "weakset";
+		if (data instanceof WeakMap) return "weakmap";
+		if (Array.isArray(data)) return "array";
+		if (this.isObject(data)) return "object";
+		if (this.isBoolean(data)) return "boolean";
+		if (this.isNumber(data)) return "number";
+		if (this.isFunction(data)) return "function";
+		return typeof data;
 	}
 
 	/**

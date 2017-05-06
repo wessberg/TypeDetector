@@ -27,6 +27,10 @@ typeDetector.isNumber(new Number(2)) // returns true
 
 ## Changelog:
 
+**v1.0.3**:
+
+- Added a `getTypeOf` method that returns a more appropriate stringified name of the type of the given data.
+
 **v1.0.1**:
 
 - A few updates in the README.
