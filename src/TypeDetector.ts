@@ -116,8 +116,8 @@ export class TypeDetector implements ITypeDetector {
 	 * @returns {TypeOf}
 	 */
 	public getTypeof<T> (data: T): TypeOf {
-		if (typeof data === null) return "null";
-		if (typeof data === undefined) return "undefined";
+		if (data === null) return "null";
+		if (typeof data === "undefined") return "undefined";
 		if (typeof data === "symbol") return "symbol";
 		if (data instanceof Date) return "date";
 		if (data instanceof RegExp) return "regexp";
