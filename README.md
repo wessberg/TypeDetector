@@ -27,6 +27,10 @@ typeDetector.isNumber(new Number(2)) // returns true
 
 ## Changelog:
 
+**v1.0.5**:
+
+- Added typedetection for class instances and class constructors. Added new 'getTypeOf' values. Classes no longer has the types 'function' for constructors and 'object' for instances, but rather 'constructor' for constructors and 'class' for class instances.
+
 **v1.0.4**:
 
 - Fixed a bug where `getTypeOf` would not catch `null` or `undefined` values.

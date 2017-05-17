@@ -1,4 +1,4 @@
-export declare type TypeOf = 'string' | 'object' | 'regexp' | 'number' | 'date' | 'symbol' | 'function' | 'boolean' | 'null' | 'undefined' | 'array' | 'set' | 'map' | 'weakset' | 'weakmap';
+export declare type TypeOf = "string"|"object"|"regexp"|"number"|"date"|"symbol"|"function"|"boolean"|"null"|"undefined"|"array"|"set"|"map"|"weakset"|"weakmap"|"class"|"constructor";
 
 export interface IArbitraryObject<T> {
 	[key: string]: T;
@@ -7,6 +7,8 @@ export interface IArbitraryObject<T> {
 
 export interface ITypeDetector {
 	/* tslint:disable */
+	isClassConstructor (item: any): item is Function;
+	isClassInstance<T> (item: any): item is T;
 	isBoolean (item: any): item is boolean;
 	isString (item: any): item is string;
 	isNumber (item: any): item is number;

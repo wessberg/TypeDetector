@@ -17,6 +17,74 @@ let IS_EQUAL_TEST_FALSY_COUNT = 0;
 let IS_PRIMITIVE_TEST_TRUTHY_COUNT = 0;
 let IS_PRIMITIVE_TEST_FALSY_COUNT = 0;
 
+test(`'isClass()' returns true for classes. #1`, t => {
+	class A {
+	}
+
+	t.true(typeDetector.isClassInstance(new A()));
+});
+
+test(`'isClass()' returns false for non-classes. #1`, t => {
+	t.false(typeDetector.isClassInstance({}));
+});
+
+test(`'isClassInstance()' returns false for non-classes. #2`, t => {
+	t.false(typeDetector.isClassInstance(function foo () {
+	}));
+});
+
+test(`'isClassInstance()' returns false for non-classes. #3`, t => {
+	t.false(typeDetector.isClassInstance(Function));
+});
+
+test(`'isClassInstance()' returns false for non-classes. #4`, t => {
+	t.false(typeDetector.isClassInstance(() => {
+	}));
+});
+
+test(`'isClassInstance()' returns false for non-classes. #5`, t => {
+	t.false(typeDetector.isClassInstance(() => new Function()));
+});
+
+test(`'isClassInstance()' returns false for non-classes. #6`, t => {
+	t.false(typeDetector.isClassInstance(class A {
+	}));
+});
+
+test(`'isClassConstructor()' returns true for class-constructors. #1`, t => {
+	t.true(typeDetector.isClassConstructor(class A {
+	}));
+});
+
+test(`'isClassConstructor()' returns false for non-class-constructors. #1`, t => {
+	class A {
+	}
+
+	t.false(typeDetector.isClassConstructor(new A()));
+});
+
+test(`'isClassConstructor()' returns false for non-class-constructors. #2`, t => {
+	t.false(typeDetector.isClassConstructor({}));
+});
+
+test(`'isClassConstructor()' returns false for non-class-constructors. #3`, t => {
+	t.false(typeDetector.isClassConstructor(function foo () {
+	}));
+});
+
+test(`'isClassConstructor()' returns false for non-class-constructors. #4`, t => {
+	t.false(typeDetector.isClassConstructor(() => {
+	}));
+});
+
+test(`'isClassConstructor()' returns false for non-class-constructors. #5`, t => {
+	t.false(typeDetector.isClassConstructor(Function));
+});
+
+test(`'isClassConstructor()' returns false for non-class-constructors. #6`, t => {
+	t.false(typeDetector.isClassConstructor(Date));
+});
+
 test(`'isBoolean()' returns true for booleans. #${++BOOLEAN_TEST_TRUTHY_COUNT}.`, t => {
 	t.true(typeDetector.isBoolean(true));
 });
@@ -198,11 +266,13 @@ test(`'isNumber()' returns false for anything else. #${++NUMBER_TEST_FALSY_COUNT
 });
 
 test(`'isFunction()' returns true for functions. #${++FUNCTION_TEST_TRUTHY_COUNT}.`, t => {
-	t.true(typeDetector.isFunction(() => {}));
+	t.true(typeDetector.isFunction(() => {
+	}));
 });
 
 test(`'isFunction()' returns true for functions. #${++FUNCTION_TEST_TRUTHY_COUNT}.`, t => {
-	t.true(typeDetector.isFunction(function () {}));
+	t.true(typeDetector.isFunction(function () {
+	}));
 });
 
 test(`'isFunction()' returns true for functions. #${++FUNCTION_TEST_TRUTHY_COUNT}.`, t => {
@@ -266,11 +336,13 @@ test(`'isObject()' returns false for anything else. #${++OBJECT_TEST_FALSY_COUNT
 });
 
 test(`'isObject()' returns false for anything else. #${++OBJECT_TEST_FALSY_COUNT}.`, t => {
-	t.false(typeDetector.isObject(() => {}));
+	t.false(typeDetector.isObject(() => {
+	}));
 });
 
 test(`'isObject()' returns false for anything else. #${++OBJECT_TEST_FALSY_COUNT}.`, t => {
-	t.false(typeDetector.isObject(function () {}));
+	t.false(typeDetector.isObject(function () {
+	}));
 });
 
 test(`'isEqual()' returns true for equal stuff. #${++IS_EQUAL_TEST_TRUTHY_COUNT}.`, t => {
@@ -290,7 +362,7 @@ test(`'isEqual()' returns true for equal stuff. #${++IS_EQUAL_TEST_TRUTHY_COUNT}
 });
 
 test(`'isEqual()' returns true for equal stuff. #${++IS_EQUAL_TEST_TRUTHY_COUNT}.`, t => {
-	t.true(typeDetector.isEqual(new Set([1, 2, 3]), new Set([3,  2, 1])));
+	t.true(typeDetector.isEqual(new Set([1, 2, 3]), new Set([3, 2, 1])));
 });
 
 test(`'isEqual()' returns true for equal stuff. #${++IS_EQUAL_TEST_TRUTHY_COUNT}.`, t => {
@@ -360,9 +432,11 @@ test(`'isPrimitive()' returns false for anything else. #${++IS_PRIMITIVE_TEST_FA
 });
 
 test(`'isPrimitive()' returns false for anything else. #${++IS_PRIMITIVE_TEST_FALSY_COUNT}.`, t => {
-	t.false(typeDetector.isPrimitive(function () {}));
+	t.false(typeDetector.isPrimitive(function () {
+	}));
 });
 
 test(`'isPrimitive()' returns false for anything else. #${++IS_PRIMITIVE_TEST_FALSY_COUNT}.`, t => {
-	t.false(typeDetector.isPrimitive(() => {}));
+	t.false(typeDetector.isPrimitive(() => {
+	}));
 });

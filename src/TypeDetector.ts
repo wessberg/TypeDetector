@@ -1,10 +1,41 @@
-import {IArbitraryObject, ITypeDetector, TypeOf} from './interface/ITypeDetector';
+import {IArbitraryObject, ITypeDetector, TypeOf} from "./interface/ITypeDetector";
 
 /**
  * A class that holds a set of predicate methods that detects the native type of the input.
  * @author Frederik Wessberg
  */
 export class TypeDetector implements ITypeDetector {
+
+	/**
+	 * Returns true if the given input is a class constructor..
+	 * @param {?} item
+	 * @returns {Function}
+	 */
+	/* tslint:disable */
+	public isClassConstructor (item: any): item is new(args: any[]) => Function {
+		/* tslint:enable */
+		if (!item || typeof item !== "function") return false;
+
+		return item.toString().substring(0, 5) === "class";
+	}
+
+	/**
+	 * Returns true if the given input is a class.
+	 * @template T
+	 * @param {?} item
+	 * @returns {T}
+	 */
+	/* tslint:disable */
+	public isClassInstance<T> (item: any): item is T {
+		/* tslint:enable */
+		if (!item || this.isClassConstructor(item)) return false;
+
+		const isCtorClass = item.constructor && item.constructor.toString().substring(0, 5) === "class";
+		if (item.prototype === undefined) return isCtorClass;
+
+		const isPrototypeCtorClass = item.prototype.constructor && item.prototype.constructor.toString && item.prototype.constructor.toString().substring(0, 5) === "class";
+		return isCtorClass || isPrototypeCtorClass;
+	}
 
 	/**
 	 * Returns true f the given item is a boolean.
@@ -48,6 +79,8 @@ export class TypeDetector implements ITypeDetector {
 	/* tslint:disable */
 	public isObject<T> (item: any): item is IArbitraryObject<T> {
 		/* tslint:enable */
+		if (!item) return false;
+		if (this.isClassInstance(item) || this.isClassConstructor(item)) return false;
 		return item ? item.constructor === {}.constructor : false;
 	}
 
@@ -57,7 +90,7 @@ export class TypeDetector implements ITypeDetector {
 	 * @returns {boolean}
 	 */
 	/* tslint:disable */
-	public isPrimitive (item: any): item is string | symbol | number | boolean {
+	public isPrimitive (item: any): item is string|symbol|number|boolean {
 		/* tslint:enable */
 		return item === null || (typeof item !== "object" && typeof item !== "function");
 	}
@@ -68,7 +101,7 @@ export class TypeDetector implements ITypeDetector {
 	 * @returns {boolean}
 	 */
 	/* tslint:disable */
-	public isPrimitivePrototype (item: any): item is typeof String | typeof Number | typeof Boolean | typeof Symbol {
+	public isPrimitivePrototype (item: any): item is typeof String|typeof Number|typeof Boolean|typeof Symbol {
 		/* tslint:enable */
 		return item === String || item === Number || item === Boolean || item === Symbol;
 	}
@@ -81,6 +114,7 @@ export class TypeDetector implements ITypeDetector {
 	/* tslint:disable */
 	public isFunction (item: any): item is Function {
 		/* tslint:enable */
+		if (this.isClassInstance(item) || this.isClassConstructor(item)) return false;
 		return !!(item && item.constructor && item.call && item.apply);
 	}
 
@@ -127,6 +161,8 @@ export class TypeDetector implements ITypeDetector {
 		if (data instanceof WeakSet) return "weakset";
 		if (data instanceof WeakMap) return "weakmap";
 		if (Array.isArray(data)) return "array";
+		if (this.isClassInstance(data)) return "class";
+		if (this.isClassConstructor(data)) return "constructor";
 		if (this.isObject(data)) return "object";
 		if (this.isBoolean(data)) return "boolean";
 		if (this.isNumber(data)) return "number";
