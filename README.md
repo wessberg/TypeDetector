@@ -27,6 +27,10 @@ typeDetector.isNumber(new Number(2)) // returns true
 
 ## Changelog:
 
+**v1.0.6**:
+
+- Made type updates to make TypeDetector compatible with Typescript ^2.4.1.
+
 **v1.0.5**:
 
 - Added typedetection for class instances and class constructors. Added new 'getTypeOf' values. Classes no longer has the types 'function' for constructors and 'object' for instances, but rather 'constructor' for constructors and 'class' for class instances.

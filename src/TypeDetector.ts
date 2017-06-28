@@ -26,7 +26,7 @@ export class TypeDetector implements ITypeDetector {
 	 * @returns {T}
 	 */
 	/* tslint:disable */
-	public isClassInstance<T> (item: any): item is T {
+	public isClassInstance<T extends any> (item: T): item is T {
 		/* tslint:enable */
 		if (!item || this.isClassConstructor(item)) return false;
 
@@ -77,10 +77,10 @@ export class TypeDetector implements ITypeDetector {
 	 * @returns {boolean}
 	 */
 	/* tslint:disable */
-	public isObject<T> (item: any): item is IArbitraryObject<T> {
+	public isObject (item: any): item is IArbitraryObject {
 		/* tslint:enable */
 		if (!item) return false;
-		if (this.isClassInstance(item) || this.isClassConstructor(item)) return false;
+		if (this.isClassInstance<Function>(item) || this.isClassConstructor(item)) return false;
 		return item ? item.constructor === {}.constructor : false;
 	}
 
@@ -114,7 +114,7 @@ export class TypeDetector implements ITypeDetector {
 	/* tslint:disable */
 	public isFunction (item: any): item is Function {
 		/* tslint:enable */
-		if (this.isClassInstance(item) || this.isClassConstructor(item)) return false;
+		if (this.isClassInstance<Function>(item) || this.isClassConstructor(item)) return false;
 		return !!(item && item.constructor && item.call && item.apply);
 	}
 
